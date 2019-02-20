@@ -1,0 +1,20 @@
+ * Include a README file detailing the files in your package and how to install the package.
+ * Comment your code - use docstrings and inline comments where appropriate.
+ * Refactor code when possible - if you find your functions are getting too long, then refactor your code!
+ * Use object-oriented programming whenever it makes sense to do so.
+ * You're encouraged to write unit tests! The coding exercises in this lesson contained unit tests, so you can use those tests as a model for your package.
+ * Use GitHub for version control, and commit your work often.
+
+As a reminder, your package should be placed in a folder with the following folders and files:
+
+* A folder with the name of your package that contains:
+ - the Python code that makes up your package
+ - a README.md file
+ - an __init__.py
+ - license.txt
+ - setup.cfg
+
+* setup.py file
+
+more info here:
+https://classroom.udacity.com/nanodegrees/nd025-ent/parts/0f0900bf-aa88-4643-ba89-2e9e085063a5/modules/f0b643c1-3c18-4fc4-980c-b0e46cc72e71/lessons/af569005-7bce-4f72-a95c-0c2aaf71634d/concepts/916e05e6-5da6-4b54-90a3-80733f09cda6

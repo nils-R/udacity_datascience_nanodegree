@@ -1,0 +1,9 @@
+Cat_Dog_data
+F_MNIST_data
+flowers
+.ipynb_checkpoints
+.pth
+__pycache__
+.DS_Store
+assets
+
