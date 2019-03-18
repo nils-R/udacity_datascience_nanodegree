@@ -1,7 +1,6 @@
+<img src="images/portrait.jpg" width="400">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Portr%C3%A4tt%2C_Rudolf_II_som_Vertumnus._Guiseppe_Arcimboldo_-_Skoklosters_slott_-_87582.jpg" width="400">
-
-<font size="+3"><p style="text-align: center;">If your country was a food, what would it be?</p></font>
+## If your country was a food, what would it be?
 
 Every year, a flood of new food and nutrition trends are fed to us in media. "5 meals a day" is contrasted with intermittent fasting and "5:2" recommendations. And just as vegetarian diets are becoming fashionable, counter trends such as Jordan Peterson's "meat only" are becoming popular. But how has our food consumption actually changed over the last decades? And how much does it differ between different countries? 
 
