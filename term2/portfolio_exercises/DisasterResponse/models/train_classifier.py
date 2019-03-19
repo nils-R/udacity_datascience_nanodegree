@@ -72,8 +72,8 @@ def build_model():
        #'vect__ngram_range': ((1, 1), (1, 2)),
        # 'tfidf__norm' : ['l2', None], 
        # 'tfidf__smooth_idf' : [True, False],
-        'clf__estimator__n_estimators': [10],
-        'clf__estimator__max_depth': [5]
+        'clf__estimator__n_estimators': [30],
+        'clf__estimator__max_depth': [10, 12]
     }
 
     model = GridSearchCV(pipeline, param_grid=parameters, verbose=2, cv=3)

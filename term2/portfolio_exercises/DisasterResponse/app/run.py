@@ -1,13 +1,14 @@
 import json
 import plotly
 import pandas as pd
+import numpy as np
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Heatmap, Table
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
@@ -37,39 +38,66 @@ model = joblib.load("../models/classifier.pkl")
 @app.route('/')
 @app.route('/index')
 def index():
-    
+   
     # extract data needed for visuals
+    df_categories = df.loc[:,'related':]
+
+    
     # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
+    ## 1st plot data
+    cate_counts = df_categories.sum().sort_values(ascending=False)
+    cate_names_sorted = cate_counts.index
+    df_categories = df_categories[cate_names_sorted]
+    cate_names = df_categories.columns
+    
+    ## 2nd plot data
+    corr = df_categories.corr()
     
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
                 Bar(
-                    x=genre_names,
-                    y=genre_counts
+                    x=cate_names_sorted,
+                    y=cate_counts
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Message Categories',
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
-                    'title': "Genre"
+                    'title': "Category"
+                }
+            }
+        },
+        {
+            'data': [
+                Heatmap(
+                    x=cate_names,
+                    y=cate_names,
+                    z=corr
+                )
+            ],
+
+            'layout': {
+                'title': "Correlation Between Message Categories",
+                'yaxis': {
+                    'title':"Message Category"
+                },
+                'xaxis': {
+                    'title': "Message Category"
                 }
             }
         }
     ]
-    
+
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
-    
+
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
