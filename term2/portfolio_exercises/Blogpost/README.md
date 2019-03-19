@@ -1,72 +1,33 @@
+### Table of Contents
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Portr%C3%A4tt%2C_Rudolf_II_som_Vertumnus._Guiseppe_Arcimboldo_-_Skoklosters_slott_-_87582.jpg" width="400">
+1. [Installation](#installation)
+2. [Project Motivation](#motivation)
+3. [File Description](#files)
+4. [Results](#results)
+5. [Licensing, Authors, and Acknowledgements](#licensing)
 
-<font size="+3"><p style="text-align: center;">If your country was a food, what would it be?</p></font>
+## Installation <a name="installation"></a>
 
-Every year, a flood of new food and nutrition trends are fed to us in media. "5 meals a day" is contrasted with intermittent fasting and "5:2" recommendations. And just as vegetarian diets are becoming fashionable, counter trends such as Jordan Peterson's "meat only" are becoming popular. But how has our food consumption actually changed over the last decades? And how much does it differ between different countries? 
+There should be no necessary libraries to run the code here beyond the Anaconda distribution of Python. The code should run with no issues using Python versions 3.*.
 
-To answer these questions, we will use a dataset on european food consumption found on the [efsa website](https://data.europa.eu/euodp/data/dataset/the-efsa-comprehensive-european-food-consumption-database/resource/0f73e423-b95a-408b-8e5b-a15de4fc97cf). This is a thourough dataset with consumption statistics for many different age groups and at a low level of granularity. However, to make results interpretable and comparable across countries, we will limit our analysis to adults only and high-level food categories.
+## Project Motivation<a name="motivation"></a>
 
-## 1. How has food consumption changed during the last decades?
+This blog post's aim is to explore food consumption patterns in European Countries. Specifically, it will look to answer the following questions:
 
-Looking at the data, we can see that some countries have performed the same study at different time intervals. This is an excellent opportunity to investigate if food patterns have evolved over time. One of these countries is Sweden and with the author coming from this country, this seems like an excellent starting point. Let's create a pointplot with the following features:
+1. Have there been any changes in Swedish consumption patterns between 1997-98 and 2010-2011?
+2. What food categories are positively and negatively correlated with each other?
+3. What countries have the greatest similarities in food patterns and what food items are representative of each cluster?
 
-* The period of the study on the x-axis
-* The relative rank in total food consumption on the y-axis
-* The difference in absolute rank as the color
+## File Descriptions <a name="files"></a>
 
-![](images/swe_lvl1.png)
+chronicgdaytotpop.xlsx contains food consumption statistics. This dataset can be downloaded from the [efsa website](https://data.europa.eu/euodp/data/dataset/the-efsa-comprehensive-european-food-consumption-database/resource/0f73e423-b95a-408b-8e5b-a15de4fc97cf). The data is available at 4 different levels of detail, with increasing granularity of each food item. For this analysis, we will only work with food items at the L1 (e.g. "Grains and grain-based products") and L2 (e.g. "Pasta") classification levels.
 
-From this simple graph we can draw a number of conclusions:
+There is also a notebook available. This notebook contains the code that was used to process, plot and model the data.
 
-* Beverages make up the largest quantities in both studies
-* Trends in healthy eating seem to be reflected in the high-level changes in consumption: Less snacks, fats and alcohol; more fish, vegetables and non-sweetened beverages
-* Despite vegetarian and vegan food becoming more popular, meat consumption has actually increased
+## Results<a name="results"></a>
 
-Let's take a closer look at beverages, as well as meat vs vegetables:
+The main findings of the code can be found at the [post](githubblog), as well as in the Blogpost - content notebook.
 
-![](images/swe_lvl2.png)
+## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
-This deep-dive adds nuance to the overall patterns:
-
-* From being pre-dominantly a beer country, alcohol intake is now mixed between wine and beer. Assuming a 14% vs 5% alcohol content, wine actually makes up a larger share of total alcohol intake
-* There has been a shift from sugary beverages (soft drinks, juices) to regular drinking water
-* Despite all (non-fruit) vegetable categories increasing, meat consumption has gone up in all major categories except sausages
-
-\* The fine details of the study notes that respondents had a hard time differenting between juices and nectars. Therefore, these categories are treated as the same. In aggregate, this category has decreased by more than 25% 
-
-Let's dive into the beatiful world of data and statistics to get the answer:
-
-## 2. What food categories are popular together?
-
-Next, let's investigate the relationship between different food products. This can be done with a correlation matrix:
-
-![](images/correlation.png)
-
-From this chart, a number of interesting relationships can be found:
-
-* High levels of animal and vegetable fats is very correlated to high intakes of animal products such as meat and eggs, but also to vegetables. 
-* Composite food is negatively related to all fresh food such as vegetables, meat and fruit. And positively related to additives and sugary beverages
-* Surprisingly, drinking water is positively correlated to all other beverage categories
-
-It is important to remember that these relationships are for averages at country level and not for individuals. Still, it gives some insight into the consumption patterns at an aggregated level
-
-## 3. What countries have similar food consumption and what food items are representative of these clusters?
-
-Lastly, let's see if we can find out what countries have similar consumption patterns, as well as what food items are typical for each cluster. To do this, we apply a technique called Principal Component Analysis (PCA) which lets us reduce the amount of variables. While this will make us lose some of the information in the data, it reduces complexity and makes it much easier to interpret the results.
-
-First, we'll plot each country on the principal components axises. We will also plot the center of each cluster:
-
-![](images/scores2.png)
-
-Interesting - we seem to have a latin, an eastern european and a germanic cluster. We also has a cluster that is less intuitive, consisting of Ireland, Czech Republic and Denmark. Let's compare these clusters to how the food items contribute to each axis:
-
-![](images/loadings2.png)
-
-Not surprisingly, the latin countries have a high consumption of fruit and seafood while the eastern european cluster has a high degree of fats and animal products. We also get an explanation to the not immediately obvious cluster of Ireland, Czech and Denmark - they all have high volumes of carbohydrates such as grains, sugar, beer and potatoes.
-
-## Summary
-
-As can be seen, we could learn a lot about changes and similarities in consumption just by looking at the top categories. To learn even more, one could look at food items at a more detailed level. Or perhaps some select foods of special interest - whatever ticks your interest. Download the [data](https://data.europa.eu/euodp/data/dataset/the-efsa-comprehensive-european-food-consumption-database/resource/0f73e423-b95a-408b-8e5b-a15de4fc97cf) and have a go yourself!
-
-Lastly - what cluster does your home country belong to? And what food items are defining that cluster? Let me know in the comments section below!
+Credit to efsa for sharing the comprehensive dataset freely. 
