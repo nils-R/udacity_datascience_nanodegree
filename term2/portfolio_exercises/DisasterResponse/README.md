@@ -1,6 +1,6 @@
 ## Disaster Response Pipeline Project
 
-![Intro Pic](screenshots/classification.jpg)
+![](images/intro.jpg)
 
 ### Table of Contents
 1. [Project Overview](#project_overview)
@@ -51,9 +51,9 @@ This project contains three main parts: ETL Pipeline, Machine Learning Pipeline 
 3. Go to http://0.0.0.0:3001/, or http://localhost:3001
 
 <a name="author"></a>
-### Authors
+### Author
 
-* [Nils Randau](https://github.com/nils-R)
+[Nils Randau](https://github.com/nils-R)
 
 <a name="license"></a>
 ### License
@@ -68,9 +68,9 @@ This project contains three main parts: ETL Pipeline, Machine Learning Pipeline 
 <a name="screenshots"></a>
 ### Screenshots of the web app
 
-![classification](/images/classification.jpg)
+![classification](images/classification.jpg)
 
-![category_count](/images/category_counts.jpg)
+![category_count](images/category_counts.jpg)
 
-![heatmap](/images/correlation.jpg)
+![heatmap](images/category_correlation.jpg)
 
