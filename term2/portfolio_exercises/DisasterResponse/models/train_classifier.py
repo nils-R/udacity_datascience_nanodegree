@@ -73,7 +73,7 @@ def build_model():
        # 'tfidf__norm' : ['l2', None], 
        # 'tfidf__smooth_idf' : [True, False],
         'clf__estimator__n_estimators': [30],
-        'clf__estimator__max_depth': [10, 12]
+        'clf__estimator__max_depth': [20, 50]
     }
 
     model = GridSearchCV(pipeline, param_grid=parameters, verbose=2, cv=3)
