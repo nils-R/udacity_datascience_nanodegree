@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ### Table of Contents
 
 1. [Installation](#installation)
@@ -8,11 +8,6 @@
 5. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Installation <a name="installation"></a>
-=======
-<img src="images/portrait.jpg" width="400">
-
-## If your country was a food, what would it be?
->>>>>>> b47834413a930354a522d8cb5d29af77720ba6db
 
 There should be no necessary libraries to run the code here beyond the Anaconda distribution of Python. The code should run with no issues using Python versions 3.*.
 
