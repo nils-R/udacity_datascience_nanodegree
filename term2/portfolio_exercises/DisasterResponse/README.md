@@ -1,6 +1,6 @@
 ## Disaster Response Pipeline Project
 
-![](images/intro.jpg)
+![](images/intro.JPG)
 
 ### Table of Contents
 1. [Project Overview](#project_overview)
@@ -68,9 +68,9 @@ This project contains three main parts: ETL Pipeline, Machine Learning Pipeline 
 <a name="screenshots"></a>
 ### Screenshots of the web app
 
-![classification](images/classification.jpg)
+![classification](images/classification.JPG)
 
-![category_count](images/category_counts.jpg)
+![category_count](images/category_counts.JPG)
 
-![heatmap](images/category_correlation.jpg)
+![heatmap](images/category_correlation.JPG)
 
