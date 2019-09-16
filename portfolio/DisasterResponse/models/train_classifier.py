@@ -3,12 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-
+from utils import tokenize
 from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -36,24 +31,6 @@ def load_data(dbfilepath, tablename='messages'):
     Y = df.loc[:, 'request':]
     category_names = Y.columns
     return X, Y, category_names
-
-
-def tokenize(text, remove_stopwords=True):
-    """
-    Tokenizes a given text.
-    Args:
-        text: text string
-        remove_stopwords: option to remove stopwords or not
-    Returns:
-        (array) clean_tokens: array of clean tokens
-    """
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    stopw = set(stopwords.words('english')) if remove_stopwords else []
-
-    cleaned_tokens = [lemmatizer.lemmatize(token).lower().strip() for token in tokens if token not in stopw]
-    return cleaned_tokens
 
 
 def build_model():
