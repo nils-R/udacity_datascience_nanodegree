@@ -1,9 +1,7 @@
-import sys
+import sys, os
 import pandas as pd
-import numpy as np
 import pickle
 
-from utils import tokenize
 from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -13,6 +11,9 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, accuracy_score
+
+sys.path.append(os.getcwd()) # inelegant but works
+from scripts.utils import tokenize
 
 def load_data(dbfilepath, tablename='messages'):
     """
@@ -47,13 +48,13 @@ def build_model():
     
     parameters = {
        #'vect__ngram_range': ((1, 1), (1, 2)),
-       # 'tfidf__norm' : ['l2', None], 
-       # 'tfidf__smooth_idf' : [True, False],
+       #'tfidf__norm' : ['l2', None],
+       #'tfidf__smooth_idf' : [True, False],
         'clf__estimator__n_estimators': [30],
-        'clf__estimator__max_depth': [20, 50]
+        'clf__estimator__max_depth': [30]
     }
 
-    model = GridSearchCV(pipeline, param_grid=parameters, verbose=2, cv=3)
+    model = GridSearchCV(pipeline, param_grid=parameters, verbose=2, cv=2)
     return model
 
 
@@ -113,7 +114,7 @@ def main():
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\
               'save the model to as the second argument. \n\nExample: python '\
-              'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
+              'scripts/train_classifier.py data/DisasterResponse.db models/classifier.pkl')
 
 
 if __name__ == '__main__':

@@ -1,22 +1,23 @@
 import json
-import plotly
 import pandas as pd
+import plotly
 
-from flask import Flask
-from flask import render_template, request, jsonify
+from flask import Flask, render_template, request
 from plotly.graph_objs import Bar, Heatmap, Table
 import joblib
 from sqlalchemy import create_engine
+import sys, os
 
+sys.path.append(os.getcwd()) # inelegant but required to unpickle model
 
 app = Flask(__name__)
 
 # load data
-engine = create_engine('sqlite:///../data/DisasterResponse.db')
+engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('messages', engine)
 
 # load model
-model = joblib.load("../models/classifier.pkl")
+model = joblib.load("models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -28,21 +29,20 @@ def index():
     df_categories = df.loc[:,'related':]
 
     ## 1st plot data
-    cate_counts = df_categories.sum().sort_values(ascending=False)
-    cate_names_sorted = cate_counts.index
-    df_categories = df_categories[cate_names_sorted]
-    cate_names = df_categories.columns
-    
+    cate_counts = df_categories.sum().sort_values(ascending=False).reset_index()
+    cate_counts.columns = ['category', 'frequency']
+    cate_names = cate_counts['category']
+
     ## 2nd plot data
-    corr = df_categories.corr()
-    
+    corr = df_categories[cate_names].corr()
+
     # create visuals
     graphs = [
         {
             'data': [
                 Bar(
-                    x=cate_names_sorted,
-                    y=cate_counts
+                    x=cate_counts['category'],
+                    y=cate_counts['frequency']
                 )
             ],
 
@@ -74,7 +74,7 @@ def index():
                     'title': "Message Category"
                 }
             }
-        }
+        },
     ]
 
     # encode plotly graphs in JSON
@@ -104,7 +104,7 @@ def go():
 
 
 def main():
-    app.run(host='0.0.0.0', port=3001, debug=True)
+    app.run(host='127.0.0.1', port=3001, debug=True)
 
 
 if __name__ == '__main__':
