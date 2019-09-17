@@ -1,10 +1,10 @@
 import json
 import pandas as pd
 import plotly
-
+import waitress
+import joblib
 from flask import Flask, render_template, request
 from plotly.graph_objs import Bar, Heatmap, Table
-import joblib
 from sqlalchemy import create_engine
 import sys, os
 
@@ -104,7 +104,8 @@ def go():
 
 
 def main():
-    app.run(host='127.0.0.1', port=3001, debug=True)
+    #app.run(host='127.0.0.1', port=5000, debug=True)
+    waitress.serve(app, host='127.0.0.1', port=5000)
 
 
 if __name__ == '__main__':
