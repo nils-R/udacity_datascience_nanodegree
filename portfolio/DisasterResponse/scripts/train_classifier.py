@@ -1,8 +1,6 @@
 import sys, os
-import pandas as pd
 import pickle
 
-from sqlalchemy import create_engine
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer
@@ -13,25 +11,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, accuracy_score
 
 sys.path.append(os.getcwd()) # inelegant but works
-from scripts.utils import tokenize
-
-def load_data(dbfilepath, tablename='messages'):
-    """
-    Loads data from database
-    Args:
-        database_filepath: path to database
-        tablename: name of table to read from
-    Returns:
-        (DataFrame) X: feature
-        (DataFrame) Y: labels
-        (array) category_names: column headers
-    """
-    engine = create_engine(f'sqlite:///{dbfilepath}')
-    df = pd.read_sql_table(tablename, engine)
-    X = df.message
-    Y = df.loc[:, 'request':]
-    category_names = Y.columns
-    return X, Y, category_names
+from scripts.utils import tokenize, load_data_from_db
 
 
 def build_model():
@@ -58,22 +38,31 @@ def build_model():
     return model
 
 
-def evaluate_model(model, X_test, Y_test, category_names):
+def make_predictions(model, X_test):
+    """
+    Use model object to make predictions
+    :param model:
+    :param X_test:
+    :return:
+    """
+    return model.predict(X_test)
+
+
+def evaluate_model(model, y_test, y_pred, category_names):
     """
     Evaluates the model against a test dataset
     Args:
         model: Trained model
         X_test: Test features
-        Y_test: Test labels
+        y_test: Test labels
+        y_pred: Predicted labels
         category_names: String array of category names
     """
-    Y_pred = model.predict(X_test)
-    target_names = Y_test.columns.values
-    
+
     # Calculate performance metrics for each category
     for i in range(len(category_names)):
-        print(f'Category:, {category_names[i]} \n {classification_report(Y_test.iloc[:, i].values, Y_pred[:, i])}')
-        print(f'Accuracy of {category_names[i]}: {accuracy_score(Y_test.iloc[:, i].values, Y_pred[:,i]):.2f}')
+        print(f'Category:, {category_names[i]} \n {classification_report(y_test.iloc[:, i].values, y_pred[:, i])}')
+        print(f'Accuracy of {category_names[i]}: {accuracy_score(y_test.iloc[:, i].values, y_pred[:, i]):.2f}')
         
     print(f'\nBest Parameters: {model.best_params_}')
 
@@ -93,17 +82,20 @@ def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:3]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
-        X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+        _, X, y, category_names = load_data_from_db(database_filepath)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
         
         print('Building model...')
         model = build_model()
         
         print('Training model...')
-        model.fit(X_train, Y_train)
+        model.fit(X_train, y_train)
+
+        print('Making predictions...')
+        y_pred = make_predictions(model, X_test)
         
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+        evaluate_model(model, y_test, y_pred, category_names)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)

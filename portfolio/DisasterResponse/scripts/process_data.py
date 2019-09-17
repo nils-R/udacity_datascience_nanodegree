@@ -42,15 +42,16 @@ def clean_data(df):
     return df
 
 
-def save_data(df, database_filename):
+def save_data(df, database_filepath, table_name):
     """
     Saves clean dataset into a sqlite database
     Args:
         df:  Cleaned dataframe
         database_filename: Name of the database file
+        table_name:
     """
-    engine = create_engine(f'sqlite:///{database_filename}')
-    df.to_sql('messages', engine, index=False, if_exists='replace')  
+    engine = create_engine(f'sqlite:///{database_filepath}')
+    df.to_sql(table_name, engine, index=False, if_exists='replace')
 
 
 def main():
@@ -62,11 +63,16 @@ def main():
               .format(messages_filepath, categories_filepath))
         df = load_data(messages_filepath, categories_filepath)
 
+        # make splits to be able to easily test inference module
+        df_train_test = df.sample(frac=0.9)
+        df_inference = df.loc[~df.index.isin(df_train_test.index), :'genre']
+        save_data(df_inference, database_filepath, 'messages_inference')
+
         print('Cleaning data...')
-        df = clean_data(df)
+        df_train_test = clean_data(df_train_test)
         
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
-        save_data(df, database_filepath)
+        save_data(df_train_test, database_filepath, 'messages_train')
         
         print('Cleaned data saved to database!')
     
