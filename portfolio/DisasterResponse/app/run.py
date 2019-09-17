@@ -1,8 +1,6 @@
-import pandas as pd
 from flask import Flask, render_template, request
-import joblib
-from sqlalchemy import create_engine
 import sys, os
+import waitress
 
 sys.path.append(os.getcwd()) # inelegant but required to unpickle model
 import scripts.utils as utils
@@ -49,7 +47,8 @@ def go():
 
 
 def main():
-    app.run(host='127.0.0.1', port=3001, debug=True)
+    #app.run(host='127.0.0.1', port=5000, debug=True)
+    waitress.serve(app, host='127.0.0.1', port=5000)
 
 
 if __name__ == '__main__':
